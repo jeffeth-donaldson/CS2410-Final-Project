@@ -20,7 +20,7 @@ public class Task {
     @ColumnInfo(name = "frequency")
     public String frequency;
 
-    @ColumnInfo(name = "user")
-    public User user;
+//    @ColumnInfo(name = "user")
+//    public User user;
 
 }
