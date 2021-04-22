@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/calendar_item"
+            android:title="Calendar"
+            android:icon="@drawable/ic_baseline_calendar_today_24"
+            android:checked="true" />
+        <item
+            android:id="@+id/rooms_item"
+            android:title="House"
+            android:icon="@drawable/ic_baseline_house_24" />
+        <item
+            android:id="@+id/profiles_item"
+            android:title="Profiles"
+            android:icon="@drawable/ic_baseline_people_24" />
+    </group>
+</menu>

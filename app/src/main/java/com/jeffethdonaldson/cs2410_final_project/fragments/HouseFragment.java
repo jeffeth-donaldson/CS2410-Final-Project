@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment;
 
 import com.jeffethdonaldson.cs2410_final_project.R;
 
-public class CalendarFragment extends Fragment {
-    public CalendarFragment() {
-        super(R.layout.fragment_calendar);
+public class HouseFragment extends Fragment {
+    public HouseFragment() {
+        super(R.layout.fragment_house);
     }
 }
