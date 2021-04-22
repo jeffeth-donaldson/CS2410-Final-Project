@@ -29,6 +29,14 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+
+    //room
+    def room_version = "2.3.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //drawer layout
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
