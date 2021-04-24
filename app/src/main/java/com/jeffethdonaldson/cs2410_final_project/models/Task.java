@@ -20,7 +20,9 @@ public class Task {
     @ColumnInfo(name = "frequency")
     public String frequency;
 
-//    @ColumnInfo(name = "user")
-//    public User user;
+    @ColumnInfo(name = "user_name")
+    public String user;
 
+    @ColumnInfo(name = "room_name")
+    public String room;
 }
