@@ -8,4 +8,7 @@ import androidx.room.PrimaryKey;
 public class Room {
     @PrimaryKey(autoGenerate = true)
     public long id;
+
+    @ColumnInfo(name = "name")
+    public String name;
 }

@@ -15,10 +15,10 @@ public class Task {
 
     @ColumnInfo(name = "description")
     public String description;
-    //daily, weekly, biweekly, monthly, yearly
 
+    // Integer representing the amount of times to do per month
     @ColumnInfo(name = "frequency")
-    public String frequency;
+    public int frequency;
 
     @ColumnInfo(name = "user_name")
     public String user;
