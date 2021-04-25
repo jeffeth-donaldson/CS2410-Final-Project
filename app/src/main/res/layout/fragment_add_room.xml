@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AddTaskFragment">
+    <TextView
+        android:id="@+id/add_room_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Add A Room"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/room_title_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/room_title_field"
@@ -16,7 +30,7 @@
         android:hint="Room Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/add_room_title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/room_title_input"
