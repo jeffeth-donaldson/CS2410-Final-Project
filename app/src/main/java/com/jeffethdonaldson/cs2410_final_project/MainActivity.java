@@ -8,9 +8,8 @@ import android.os.Bundle;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jeffethdonaldson.cs2410_final_project.fragments.CalendarFragment;
-import com.jeffethdonaldson.cs2410_final_project.fragments.HouseFragment;
 import com.jeffethdonaldson.cs2410_final_project.fragments.ProfilesFragment;
-import com.jeffethdonaldson.cs2410_final_project.fragments.TaskFragment;
+import com.jeffethdonaldson.cs2410_final_project.fragments.RoomFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.rooms_item:
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, HouseFragment.class, null)
+                            .replace(R.id.fragment_container_view, RoomFragment.class, null)
                             .setReorderingAllowed(true)
                             .commit();
                     break;

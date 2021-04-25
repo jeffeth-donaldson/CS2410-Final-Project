@@ -23,9 +23,9 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.fab).setOnClickListener((button) -> {
+        view.findViewById(R.id.fab_task).setOnClickListener((button) -> {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_view, NewTaskFragment.class, null)
+                    .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
