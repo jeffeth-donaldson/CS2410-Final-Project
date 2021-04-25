@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface ProfileDao {
     @Query("SELECT * FROM profile")
-    List<Room> getAll();
+    List<Profile> getAll();
 
     @Query("SELECT * FROM profile WHERE id = :id LIMIT 1")
     Profile findById(long id);

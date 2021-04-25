@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity
 public class Task {
     @PrimaryKey(autoGenerate = true)
@@ -25,4 +27,7 @@ public class Task {
 
     @ColumnInfo(name = "room_name")
     public String room;
+
+    @ColumnInfo(name = "last_added")
+    public Date lastAdded;
 }
