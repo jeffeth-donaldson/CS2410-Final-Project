@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Room {
+public class HouseRoom {
     @PrimaryKey(autoGenerate = true)
     public long id;
 

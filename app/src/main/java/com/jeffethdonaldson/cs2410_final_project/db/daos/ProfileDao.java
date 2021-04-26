@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.jeffethdonaldson.cs2410_final_project.models.Profile;
-import com.jeffethdonaldson.cs2410_final_project.models.Room;
 
 import java.util.List;
 

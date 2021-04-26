@@ -6,9 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jeffethdonaldson.cs2410_final_project.models.Room;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
-import com.jeffethdonaldson.cs2410_final_project.models.User;
 
 import java.util.List;
 
