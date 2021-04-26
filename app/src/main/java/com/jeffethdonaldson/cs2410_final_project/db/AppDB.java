@@ -16,7 +16,7 @@ import com.jeffethdonaldson.cs2410_final_project.models.Task;
 @Database(entities = {Profile.class, Room.class, Task.class, Day.class}, version = 1)
 @TypeConverters(Converters.class)
 public abstract class AppDB extends RoomDatabase {
-    public abstract ProfileDao getJournalEntryDao();
+    public abstract ProfileDao getProfileDao();
     public abstract RoomDao getRoomDao();
     public abstract TaskDao getTaskDao();
     public abstract DayDao getDayDao();
