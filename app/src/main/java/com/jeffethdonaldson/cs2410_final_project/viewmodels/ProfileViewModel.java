@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 
@@ -23,7 +24,7 @@ public class ProfileViewModel extends AndroidViewModel {
     public ProfileViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class, "profile-db").build();
+        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
         new Thread(() -> {
            profiles.addAll(db.getProfileDao().getAll());
         });

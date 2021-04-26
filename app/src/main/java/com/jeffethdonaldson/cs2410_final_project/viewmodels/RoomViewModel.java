@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.HouseRoom;
 
@@ -20,7 +21,7 @@ public class RoomViewModel extends AndroidViewModel {
     public RoomViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class, "houseroom-db").build();
+        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
         new Thread(() -> {
             houseRooms.addAll(db.getRoomDao().getAll());
         });
@@ -29,12 +30,17 @@ public class RoomViewModel extends AndroidViewModel {
     public ArrayList<HouseRoom> getHouseRooms(){
         return houseRooms;
     }
+    public MutableLiveData<Boolean> getSaving(){
+        return saving;
+    }
     public void saveRoom(String title){
         new Thread(()->{
+            saving.postValue(true);
             HouseRoom newHouseRoom = new HouseRoom();
             newHouseRoom.name = title;
             newHouseRoom.id = db.getRoomDao().insert(newHouseRoom);
             houseRooms.add(newHouseRoom);
+            saving.postValue(false);
         }).start();
     }
 }
