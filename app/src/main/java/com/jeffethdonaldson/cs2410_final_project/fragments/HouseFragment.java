@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment;
 
 import com.jeffethdonaldson.cs2410_final_project.R;
 
-public class RoomFragment extends Fragment {
-    public RoomFragment() {
+public class HouseFragment extends Fragment {
+    public HouseFragment() {
         // Required empty public constructor
-        super(R.layout.fragment_room);
+        super(R.layout.fragment_house);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class RoomFragment extends Fragment {
 
         view.findViewById(R.id.fab_room).setOnClickListener((button) -> {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
+                    .replace(R.id.fragment_container_view, AddRoomFragment.class, null)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
