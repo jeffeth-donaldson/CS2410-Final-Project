@@ -9,8 +9,11 @@ import androidx.databinding.ObservableList;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.jeffethdonaldson.cs2410_final_project.R;
+import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.ProfileAdapter;
 import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.ProfileViewModel;
 
@@ -28,30 +31,56 @@ public class ProfilesFragment extends Fragment {
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
 
+        ProfileAdapter adapter = new ProfileAdapter(
+                viewModel.getProfiles(),
+                (profile) -> {
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, AddProfileFragment.class, null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
+                },
+                (profile) -> {
+                    //viewModel.delete(profile);
+                }
+        );
+
         viewModel.getProfiles().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Profile>>() {
             @Override
             public void onChanged(ObservableList<Profile> sender) {
-
+                getActivity().runOnUiThread(() -> {
+                    adapter.notifyDataSetChanged();
+                });
             }
 
             @Override
             public void onItemRangeChanged(ObservableList<Profile> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(positionStart, itemCount);
+                });
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Profile> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() -> {
+                    adapter.notifyItemRangeInserted(positionStart, itemCount);
+                });
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Profile> sender, int fromPosition, int toPosition, int itemCount) {
-
+                getActivity().runOnUiThread(() -> {
+                    for (int i = 0; i < itemCount; i++) {
+                        adapter.notifyItemMoved(fromPosition+i, toPosition+i);
+                    }
+                });
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Profile> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() -> {
+                    adapter.notifyItemRangeRemoved(positionStart, itemCount);
+                });
             }
         });
 
@@ -62,5 +91,9 @@ public class ProfilesFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+
+        RecyclerView recyclerView = view.findViewById(R.id.profile_fragment_recycler);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

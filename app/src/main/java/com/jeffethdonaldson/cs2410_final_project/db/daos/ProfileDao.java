@@ -12,10 +12,10 @@ import java.util.List;
 
 @Dao
 public interface ProfileDao {
-    @Query("SELECT * FROM profile")
+    @Query("SELECT * FROM Profile")
     List<Profile> getAll();
 
-    @Query("SELECT * FROM profile WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM Profile WHERE id = :id LIMIT 1")
     Profile findById(long id);
 
     @Insert

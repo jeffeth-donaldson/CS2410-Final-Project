@@ -39,8 +39,8 @@ public class HouseFragment extends Fragment {
                             .addToBackStack(null)
                             .commit();
                 },
-                (entry) ->{
-                    //viewModel.delete(entry);
+                (room) ->{
+                    //viewModel.delete(room);
                 }
         );
 

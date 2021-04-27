@@ -38,6 +38,7 @@ public class HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HouseRoom room = rooms.get(position);
         TextView name = holder.itemView.findViewById(R.id.room_item_name);
+        name.setText(room.name);
 
         ImageButton editButton = holder.itemView.findViewById(R.id.room_item_edit_button);
         editButton.setOnClickListener((view) ->{

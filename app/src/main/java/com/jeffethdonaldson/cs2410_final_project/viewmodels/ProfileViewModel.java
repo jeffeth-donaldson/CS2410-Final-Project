@@ -27,7 +27,7 @@ public class ProfileViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
         new Thread(() -> {
            profiles.addAll(db.getProfileDao().getAll());
-        });
+        }).start();
     }
 
     public ObservableArrayList<Profile> getProfiles(){
