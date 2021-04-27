@@ -20,7 +20,7 @@ public class RoomFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        view.findViewById(R.id.fab_room).setOnClickListener((button) -> {
+        view.findViewById(R.id.fab_house).setOnClickListener((button) -> {
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
                     .setReorderingAllowed(true)

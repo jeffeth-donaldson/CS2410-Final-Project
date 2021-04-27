@@ -30,7 +30,7 @@ public class ProfileViewModel extends AndroidViewModel {
         });
     }
 
-    public ArrayList<Profile> getProfiles(){
+    public ObservableArrayList<Profile> getProfiles(){
         return profiles;
     }
 

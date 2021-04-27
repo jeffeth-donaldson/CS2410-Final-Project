@@ -27,7 +27,7 @@ public class RoomViewModel extends AndroidViewModel {
         });
     }
 
-    public ArrayList<HouseRoom> getHouseRooms(){
+    public ObservableArrayList<HouseRoom> getHouseRooms(){
         return houseRooms;
     }
     public MutableLiveData<Boolean> getSaving(){

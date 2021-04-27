@@ -12,7 +12,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/room_name"
+            android:id="@+id/room_item_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -20,7 +20,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/room_item_edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
