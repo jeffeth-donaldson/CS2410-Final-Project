@@ -24,7 +24,7 @@ public class RoomViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
         new Thread(() -> {
             houseRooms.addAll(db.getRoomDao().getAll());
-        });
+        }).start();
     }
 
     public ObservableArrayList<HouseRoom> getHouseRooms(){
