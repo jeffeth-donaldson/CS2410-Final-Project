@@ -41,6 +41,15 @@ public class HouseFragment extends Fragment {
                 },
                 (room) ->{
                     //viewModel.delete(room);
+                },
+                (room) ->{
+                    System.out.println(room);
+                    viewModel.setCurrentRoom(room);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, RoomFragment.class, null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
                 }
         );
 

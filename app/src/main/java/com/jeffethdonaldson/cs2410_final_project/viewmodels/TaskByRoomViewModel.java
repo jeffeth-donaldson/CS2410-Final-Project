@@ -19,13 +19,15 @@ public class TaskByRoomViewModel extends AndroidViewModel {
     MutableLiveData<Task> currentTask = new MutableLiveData<>();
     AppDB db;
 
-    public TaskByRoomViewModel(@NonNull Application application, HouseRoom houseRoom) {
+    public TaskByRoomViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
         db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).build();
     }
 
     public ObservableArrayList<Task> getTasks(HouseRoom houseRoom){
+        tasks.clear();
+        System.out.println(houseRoom);
         new Thread(() -> {
             tasks.addAll(db.getTaskDao().findByRoom(houseRoom.name));
         }).start();

@@ -17,14 +17,16 @@ public class HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.View
     ObservableArrayList<HouseRoom> rooms;
     OnHouseRoomClicked addUpdateListener;
     OnHouseRoomClicked deleteListener;
+    OnHouseRoomClicked viewListener;
     public interface OnHouseRoomClicked{
         void onClick(HouseRoom room);
     }
 
-    public HouseRoomAdapter(ObservableArrayList<HouseRoom> rooms, OnHouseRoomClicked addUpdateListener, OnHouseRoomClicked deleteListener) {
+    public HouseRoomAdapter(ObservableArrayList<HouseRoom> rooms, OnHouseRoomClicked addUpdateListener, OnHouseRoomClicked deleteListener, OnHouseRoomClicked viewListener) {
         this.rooms = rooms;
         this.addUpdateListener = addUpdateListener;
         this.deleteListener = deleteListener;
+        this.viewListener = viewListener;
     }
 
     @NonNull
@@ -43,6 +45,10 @@ public class HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.View
         ImageButton editButton = holder.itemView.findViewById(R.id.room_item_edit_button);
         editButton.setOnClickListener((view) ->{
             addUpdateListener.onClick(room);
+        });
+
+        holder.itemView.setOnClickListener((view) -> {
+            viewListener.onClick(room);
         });
     }
 
