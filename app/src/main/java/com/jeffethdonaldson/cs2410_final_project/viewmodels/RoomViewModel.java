@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class RoomViewModel extends AndroidViewModel {
     ObservableArrayList<HouseRoom> houseRooms = new ObservableArrayList<>();
     MutableLiveData<Boolean> saving = new MutableLiveData<>();
+    MutableLiveData<HouseRoom> currentRoom = new MutableLiveData<>();
     AppDB db;
     public RoomViewModel(@NonNull Application application) {
         super(application);
@@ -33,6 +34,14 @@ public class RoomViewModel extends AndroidViewModel {
     public MutableLiveData<Boolean> getSaving(){
         return saving;
     }
+    public MutableLiveData<HouseRoom> getCurrentRoom(){
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(HouseRoom currentRoom) {
+        this.currentRoom.postValue(currentRoom);
+    }
+
     public void saveRoom(String title){
         new Thread(()->{
             saving.postValue(true);
