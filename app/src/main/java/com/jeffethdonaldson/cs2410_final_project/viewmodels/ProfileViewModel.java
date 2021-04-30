@@ -14,6 +14,7 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 

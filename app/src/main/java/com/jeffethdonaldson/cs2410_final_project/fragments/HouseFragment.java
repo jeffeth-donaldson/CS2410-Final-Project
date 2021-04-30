@@ -16,6 +16,8 @@ import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.HouseRoomAda
 import com.jeffethdonaldson.cs2410_final_project.models.HouseRoom;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.RoomViewModel;
 
+import java.io.Serializable;
+
 public class HouseFragment extends Fragment {
     public HouseFragment() {
         // Required empty public constructor
@@ -43,10 +45,12 @@ public class HouseFragment extends Fragment {
                     //viewModel.delete(room);
                 },
                 (room) ->{
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("houseRoom", room);
                     System.out.println(room);
                     viewModel.setCurrentRoom(room);
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, RoomFragment.class, null)
+                            .replace(R.id.fragment_container_view, RoomFragment.class, bundle)
                             .setReorderingAllowed(true)
                             .addToBackStack(null)
                             .commit();

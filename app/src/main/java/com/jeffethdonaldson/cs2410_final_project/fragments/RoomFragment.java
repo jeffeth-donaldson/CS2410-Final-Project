@@ -33,6 +33,10 @@ public class RoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle bundle = getArguments();
+
+        currentRoom = (HouseRoom) bundle.get("houseRoom");
+
         // Get current room, if no current room leave fragment (shouldn't ever happen)
         roomViewModel = new ViewModelProvider(getActivity()).get(RoomViewModel.class);
         roomViewModel.getCurrentRoom().observe(getViewLifecycleOwner(), houseRoom -> {
@@ -46,7 +50,6 @@ public class RoomFragment extends Fragment {
 
 
         taskViewModel = new ViewModelProvider(getActivity()).get(TaskByRoomViewModel.class);
-
         tasks = taskViewModel.getTasks(currentRoom);
 
         TaskAdapter adapter = new TaskAdapter(
