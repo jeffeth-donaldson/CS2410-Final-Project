@@ -24,5 +24,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
+        <ImageButton
+            android:id="@+id/task_item_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
