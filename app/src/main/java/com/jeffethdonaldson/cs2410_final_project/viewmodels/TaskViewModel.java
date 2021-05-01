@@ -44,6 +44,7 @@ public class TaskViewModel extends AndroidViewModel {
         this.currentTask.postValue(currentTask);
     }
     public void saveTask(String title, String description, int frequency, String userName, String roomName){
+        saving.postValue(true);
         new Thread(()->{
             Task newTask = new Task();
             newTask.name = title;
@@ -53,6 +54,7 @@ public class TaskViewModel extends AndroidViewModel {
             newTask.room = roomName;
             newTask.id = db.getTaskDao().insert(newTask);
             tasks.add(newTask);
+            saving.postValue(false);
         }).start();
     }
 }

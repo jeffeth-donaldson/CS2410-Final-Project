@@ -28,11 +28,17 @@ public class Converters {
 
     @TypeConverter
     public static Date fromLong(Long value){
+        if (value == null || value == -1){
+            return null;
+        }
         return new Date(value);
     }
 
     @TypeConverter
     public static Long fromDate(Date value){
+        if(value == null){
+            return (long)-1;
+        }
         return value.getTime();
     }
 }

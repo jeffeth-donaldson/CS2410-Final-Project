@@ -16,16 +16,13 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.TaskAdapter;
 import com.jeffethdonaldson.cs2410_final_project.models.HouseRoom;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
-import com.jeffethdonaldson.cs2410_final_project.viewmodels.RoomViewModel;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.TaskByRoomViewModel;
-import com.jeffethdonaldson.cs2410_final_project.viewmodels.TaskViewModel;
 
 public class RoomFragment extends Fragment {
     public RoomFragment() {
         super(R.layout.fragment_room);
     }
-    TaskByRoomViewModel taskViewModel;
-    RoomViewModel roomViewModel;
+    TaskByRoomViewModel viewModel;
     private HouseRoom currentRoom;
     private ObservableArrayList<Task> tasks;
 
@@ -37,26 +34,16 @@ public class RoomFragment extends Fragment {
 
         currentRoom = (HouseRoom) bundle.get("houseRoom");
 
-        // Get current room, if no current room leave fragment (shouldn't ever happen)
-        roomViewModel = new ViewModelProvider(getActivity()).get(RoomViewModel.class);
-        roomViewModel.getCurrentRoom().observe(getViewLifecycleOwner(), houseRoom -> {
-            if(houseRoom!=null){
-                this.currentRoom = houseRoom;
-            } else {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-
-
-
-        taskViewModel = new ViewModelProvider(getActivity()).get(TaskByRoomViewModel.class);
-        tasks = taskViewModel.getTasks(currentRoom);
+        viewModel = new ViewModelProvider(getActivity()).get(TaskByRoomViewModel.class);
+        tasks = viewModel.getTasks(currentRoom);
 
         TaskAdapter adapter = new TaskAdapter(
                 tasks,
                 (task) -> {
+                    Bundle args = new Bundle();
+                    args.putSerializable("houseRoom", currentRoom);
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
+                            .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
                             .setReorderingAllowed(true)
                             .addToBackStack(null)
                             .commit();
@@ -77,37 +64,37 @@ public class RoomFragment extends Fragment {
             @Override
             public void onItemRangeChanged(ObservableList<Task> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeChanged(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Task> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeInserted(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Task> sender, int fromPosition, int toPosition, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    for (int i = 0; i < itemCount; i++) {
-                        adapter.notifyItemMoved(fromPosition+i, toPosition+i);
-                    }
+                        adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Task> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeRemoved(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
         });
 
         view.findViewById(R.id.fab_room).setOnClickListener((button) -> {
+            Bundle args = new Bundle();
+            args.putSerializable("houseRoom", currentRoom);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
+                    .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();

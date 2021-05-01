@@ -81,43 +81,26 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/task_user_field"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/spinner_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Frequency"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Assignee"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_frequency_field">
+        app:layout_constraintTop_toBottomOf="@+id/task_frequency_field" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/task_user_input"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/task_room_field"
-        android:layout_width="0dp"
+    <Spinner
+        android:id="@+id/assigned_user_spinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Frequency"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_user_field">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/task_room_input"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/spinner_label" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/task_save_button"
@@ -128,7 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_room_field"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintTop_toBottomOf="@+id/assigned_user_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

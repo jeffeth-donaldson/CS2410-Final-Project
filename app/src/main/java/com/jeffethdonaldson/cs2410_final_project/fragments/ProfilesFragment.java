@@ -56,30 +56,28 @@ public class ProfilesFragment extends Fragment {
             @Override
             public void onItemRangeChanged(ObservableList<Profile> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeChanged(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Profile> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeInserted(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Profile> sender, int fromPosition, int toPosition, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    for (int i = 0; i < itemCount; i++) {
-                        adapter.notifyItemMoved(fromPosition+i, toPosition+i);
-                    }
+                    adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Profile> sender, int positionStart, int itemCount) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.notifyItemRangeRemoved(positionStart, itemCount);
+                    adapter.notifyDataSetChanged();
                 });
             }
         });
