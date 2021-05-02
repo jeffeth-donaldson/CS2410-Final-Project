@@ -72,16 +72,17 @@ public class ProfileViewModel extends AndroidViewModel {
     }
 
 
-
-
-
-
-
-
-
-
     public void delete(Profile profile){
         new Thread(() -> {
+//            for(int i = 0; i < db.getTaskDao().findByUser(profile.name).size(); i++){
+//                System.out.println(db.getTaskDao().findByUser(profile.name).get(i).name);
+//            }
+//            for(int i = 0; i < db.getTaskDao().findByUser(profile.name).size(); i++){
+//                db.getTaskDao().findByUser(profile.name).get(i).user = unassigned.
+//            }
+//            for(int i = 0; i < db.getTaskDao().findByUser(profile.name).size(); i++){
+//                System.out.println(db.getTaskDao().findByUser(profile.name).get(i).name);
+//            }
             db.getProfileDao().delete(profile);
             profiles.remove(profile);
         }).start();
