@@ -23,6 +23,14 @@ public class AddRoomFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(RoomViewModel.class);
 
+        viewModel.getCurrentRoom().observe(getViewLifecycleOwner(), houseRoom -> {
+            if(houseRoom != null){
+                TextInputEditText titleInput = view.findViewById(R.id.room_title_input);
+                titleInput.setText(houseRoom.name);
+            }
+        });
+
+
         viewModel.getSaving().observe(getViewLifecycleOwner(), saving -> {
             if(this.saving && !saving) {
                 // Save finish, can exit

@@ -42,10 +42,11 @@ public class RoomFragment extends Fragment {
         TaskAdapter adapter = new TaskAdapter(
                 tasks,
                 (task) -> {
-                    Bundle args = new Bundle();
-                    args.putSerializable("houseRoom", currentRoom);
+//                    Bundle args = new Bundle();
+//                    args.putSerializable("houseRoom", currentRoom);
+                    viewModel.setCurrentTask(task);
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
+                            .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
                             .setReorderingAllowed(true)
                             .addToBackStack(null)
                             .commit();
@@ -103,10 +104,11 @@ public class RoomFragment extends Fragment {
         });
 
         view.findViewById(R.id.fab_room).setOnClickListener((button) -> {
-            Bundle args = new Bundle();
-            args.putSerializable("houseRoom", currentRoom);
+//            Bundle args = new Bundle();
+//            args.putSerializable("houseRoom", currentRoom);
+            viewModel.setCurrentTask(null);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
+                    .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();

@@ -85,6 +85,7 @@ public class ProfilesFragment extends Fragment {
         });
 
         view.findViewById(R.id.fab_profile).setOnClickListener((button) -> {
+            viewModel.setCurrentProfile(null);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, AddProfileFragment.class, null)
                     .setReorderingAllowed(true)
