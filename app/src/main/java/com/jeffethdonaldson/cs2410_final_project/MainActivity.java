@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         topBar.setNavigationOnClickListener(view -> {
             drawerLayout.open();
         });
-
         // Material toolBar
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
 
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
             toolbar.setTitle("To Do");
         }
-
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             menuItem.setChecked(true);
             drawerLayout.close();
