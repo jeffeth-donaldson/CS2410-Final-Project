@@ -54,15 +54,6 @@ public class RoomViewModel extends AndroidViewModel {
     }
     public void delete(HouseRoom room){
         new Thread(() -> {
-//            for(int i = 0; i < db.getTaskDao().findByRoom(room.name).size(); i++){
-//                System.out.println(db.getTaskDao().findByRoom(room.name).get(i).name);
-//            }
-//            for(int i = 0; i < db.getTaskDao().findByRoom(room.name).size(); i++){
-//                db.getTaskDao().findByRoom(room.name).remove(i);
-//            }
-//            for(int i = 0; i < db.getTaskDao().findByRoom(room.name).size(); i++){
-//                System.out.println(db.getTaskDao().findByRoom(room.name).get(i).name);
-//            }
             db.getRoomDao().delete(room);
             houseRooms.remove(room);
         }).start();
