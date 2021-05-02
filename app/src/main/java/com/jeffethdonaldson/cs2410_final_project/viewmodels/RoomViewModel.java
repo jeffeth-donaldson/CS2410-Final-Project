@@ -22,7 +22,7 @@ public class RoomViewModel extends AndroidViewModel {
     public RoomViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
+        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
         new Thread(() -> {
             houseRooms.addAll(db.getRoomDao().getAll());
         }).start();

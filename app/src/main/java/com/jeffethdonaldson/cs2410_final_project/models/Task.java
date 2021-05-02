@@ -5,10 +5,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
-public class Task {
+public class Task implements Comparable<Task>{
     @PrimaryKey(autoGenerate = true)
     public long id;
 
@@ -30,4 +31,18 @@ public class Task {
 
     @ColumnInfo(name = "last_added")
     public Date lastAdded;
+
+    @ColumnInfo(name = "days_scheduled")
+    public ArrayList<Date> daysScheduled;
+
+    @Override
+    public int compareTo(Task o) {
+        if (this.frequency < o.frequency){
+            return -1;
+        } else if (this.frequency > o.frequency) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

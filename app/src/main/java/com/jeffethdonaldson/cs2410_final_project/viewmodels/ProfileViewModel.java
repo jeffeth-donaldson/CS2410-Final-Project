@@ -25,7 +25,7 @@ public class ProfileViewModel extends AndroidViewModel {
     public ProfileViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).build();
+        db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
         new Thread(() -> {
            profiles.addAll(db.getProfileDao().getAll());
         }).start();

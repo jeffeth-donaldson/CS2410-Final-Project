@@ -22,7 +22,7 @@ public class TaskByRoomViewModel extends AndroidViewModel {
     public TaskByRoomViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).build();
+        db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
     }
 
     public ObservableArrayList<Task> getTasks(HouseRoom houseRoom){

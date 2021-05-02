@@ -25,7 +25,7 @@ public class TaskViewModel extends AndroidViewModel {
     public TaskViewModel(@NonNull Application application) {
         super(application);
         saving.setValue(false);
-        db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).build();
+        db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
         new Thread(() -> {
             tasks.addAll(db.getTaskDao().getAll());
         });

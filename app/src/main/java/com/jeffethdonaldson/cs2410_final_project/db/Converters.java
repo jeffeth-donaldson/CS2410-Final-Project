@@ -8,20 +8,20 @@ import java.util.Date;
 
 public class Converters {
     @TypeConverter
-    public static ArrayList<Long> fromString(String value) {
+    public static ArrayList<Date> fromString(String value) {
        String[] split = value.split(",");
-       ArrayList<Long> result = new ArrayList<>();
+       ArrayList<Date> result = new ArrayList<>();
         for (String i: split) {
-            result.add(Long.parseLong(i));
+            result.add(new Date(Long.parseLong(i)));
         }
         return result;
     }
 
     @TypeConverter
-    public static String fromArrayList(ArrayList<Long> list) {
+    public static String fromArrayList(ArrayList<Date> list) {
         StringBuilder result = new StringBuilder();
-        for (Long val : list) {
-            result.append(val).append(",");
+        for (Date val : list) {
+            result.append(val.getTime()).append(",");
         }
         return result.toString();
     }
