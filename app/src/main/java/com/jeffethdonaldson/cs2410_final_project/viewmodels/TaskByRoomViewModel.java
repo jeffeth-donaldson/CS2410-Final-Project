@@ -44,15 +44,18 @@ public class TaskByRoomViewModel extends AndroidViewModel {
         this.currentTask.postValue(currentTask);
     }
     public void saveTask(String title, String description, int frequency, String userName, String roomName){
+        saving.postValue(true);
         new Thread(()->{
-            Task newTask = new Task();
-            newTask.name = title;
-            newTask.description = description;
-            newTask.frequency = frequency;
-            newTask.user = userName;
-            newTask.room = roomName;
-            newTask.id = db.getTaskDao().insert(newTask);
-            tasks.add(newTask);
+            Task current = currentTask.getValue();
+            current.name = title;
+            current.frequency = frequency;
+            current.user = userName;
+            current.room = roomName;
+            current.description = description;
+            db.getTaskDao().update(current);
+            int index = tasks.indexOf(current);
+            tasks.set(index, current);
+            saving.postValue(false);
         }).start();
     }
     public void delete(Task task){

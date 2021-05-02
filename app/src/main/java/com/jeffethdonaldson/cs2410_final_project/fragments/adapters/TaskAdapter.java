@@ -17,14 +17,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     ObservableArrayList<Task> tasks;
     OnTaskClicked addUpdateListener;
     OnTaskClicked deleteListener;
+    OnTaskClicked viewListener;
     public interface OnTaskClicked{
         void onClick(Task task);
     }
 
-    public TaskAdapter(ObservableArrayList<Task> tasks, OnTaskClicked addUpdateListener, OnTaskClicked deleteListener){
+    public TaskAdapter(ObservableArrayList<Task> tasks, OnTaskClicked addUpdateListener, OnTaskClicked deleteListener, OnTaskClicked viewListener){
         this.tasks = tasks;
         this.addUpdateListener = addUpdateListener;
         this.deleteListener = deleteListener;
+        this.viewListener = viewListener;
     }
 
     @NonNull
@@ -48,6 +50,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         deleteButton.setOnClickListener((view) ->{
             if(deleteListener == null) return;
             deleteListener.onClick(task);
+        });
+        holder.itemView.setOnClickListener((view) -> {
+            if(viewListener == null) return;
+            viewListener.onClick(task);
         });
 
     }

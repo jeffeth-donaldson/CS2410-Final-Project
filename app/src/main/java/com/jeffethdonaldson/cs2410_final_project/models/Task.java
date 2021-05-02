@@ -1,15 +1,17 @@
 package com.jeffethdonaldson.cs2410_final_project.models;
 
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task>, Serializable {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
@@ -44,5 +46,14 @@ public class Task implements Comparable<Task>{
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof  Task){
+            Task other = (Task) obj;
+            return other.id == this.id;
+        }
+        return false;
     }
 }
