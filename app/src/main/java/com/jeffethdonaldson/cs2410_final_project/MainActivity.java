@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         topBar.setNavigationOnClickListener(view -> {
             drawerLayout.open();
         });
-        // Material toolBar
+        // Material toolBar titles
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
 
         if(savedInstanceState == null){
