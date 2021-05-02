@@ -58,37 +58,47 @@ public class RoomFragment extends Fragment {
         tasks.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Task>>() {
             @Override
             public void onChanged(ObservableList<Task> sender) {
+                if(getActivity()!=null){
                 getActivity().runOnUiThread(() -> {
                     adapter.notifyDataSetChanged();
                 });
+                }
             }
 
             @Override
             public void onItemRangeChanged(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() -> {
-                    adapter.notifyDataSetChanged();
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                }
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() -> {
-                    adapter.notifyDataSetChanged();
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                }
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Task> sender, int fromPosition, int toPosition, int itemCount) {
-                getActivity().runOnUiThread(() -> {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
                         adapter.notifyDataSetChanged();
-                });
+                    });
+                }
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() -> {
-                    adapter.notifyDataSetChanged();
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                }
             }
         });
 
