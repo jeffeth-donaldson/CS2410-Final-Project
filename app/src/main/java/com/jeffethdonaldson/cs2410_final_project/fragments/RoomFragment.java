@@ -51,7 +51,7 @@ public class RoomFragment extends Fragment {
                             .commit();
                 },
                 (task)->{
-                    //viewModel.delete(task);
+                    viewModel.delete(task);
                 }
         );
 

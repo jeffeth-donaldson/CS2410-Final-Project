@@ -11,6 +11,7 @@ import androidx.room.Room;
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.HouseRoom;
+import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
 public class TaskByRoomViewModel extends AndroidViewModel {
@@ -54,4 +55,11 @@ public class TaskByRoomViewModel extends AndroidViewModel {
             tasks.add(newTask);
         }).start();
     }
+    public void delete(Task task){
+        new Thread(() -> {
+            db.getTaskDao().delete(task);
+            tasks.remove(task);
+        }).start();
+    }
+
 }

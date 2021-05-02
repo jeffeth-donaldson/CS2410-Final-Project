@@ -39,16 +39,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Profile profile = profiles.get(position);
         TextView name = holder.itemView.findViewById(R.id.profile_item_name);
-        name.setText(profile.name);
 
         ImageButton editButton = holder.itemView.findViewById(R.id.profile_item_edit_button);
         editButton.setOnClickListener((view)->{
+            if(addUpdateListener == null) return;
             addUpdateListener.onClick(profile);
         });
         ImageButton deleteButton = holder.itemView.findViewById(R.id.profile_item_delete_button);
         deleteButton.setOnClickListener((view) ->{
+            if(deleteListener == null) return;
             deleteListener.onClick(profile);
         });
+        name.setText(profile.name);
     }
 
     @Override

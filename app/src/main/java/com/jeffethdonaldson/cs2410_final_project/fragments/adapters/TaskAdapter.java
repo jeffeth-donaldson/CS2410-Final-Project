@@ -44,6 +44,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         editButton.setOnClickListener((view) ->{
             addUpdateListener.onClick(task);
         });
+        ImageButton deleteButton = holder.itemView.findViewById(R.id.task_item_delete_button);
+        deleteButton.setOnClickListener((view) ->{
+            if(deleteListener == null) return;
+            deleteListener.onClick(task);
+        });
+
     }
 
     @Override
