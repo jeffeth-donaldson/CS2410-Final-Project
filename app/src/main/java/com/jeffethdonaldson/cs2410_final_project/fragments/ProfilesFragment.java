@@ -34,6 +34,8 @@ public class ProfilesFragment extends Fragment {
         ProfileAdapter adapter = new ProfileAdapter(
                 viewModel.getProfiles(),
                 (profile) -> {
+                    //may cause issue
+                    viewModel.setCurrentProfile(profile);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_view, AddProfileFragment.class, null)
                             .setReorderingAllowed(true)
@@ -41,7 +43,7 @@ public class ProfilesFragment extends Fragment {
                             .commit();
                 },
                 (profile) -> {
-                    //viewModel.delete(profile);
+                    viewModel.delete(profile);
                 }
         );
 
@@ -83,6 +85,7 @@ public class ProfilesFragment extends Fragment {
         });
 
         view.findViewById(R.id.fab_profile).setOnClickListener((button) -> {
+            viewModel.setCurrentProfile(null);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, AddProfileFragment.class, null)
                     .setReorderingAllowed(true)

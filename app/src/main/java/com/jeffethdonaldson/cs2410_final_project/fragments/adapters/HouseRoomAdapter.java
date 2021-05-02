@@ -44,14 +44,17 @@ public class HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.View
 
         ImageButton editButton = holder.itemView.findViewById(R.id.room_item_edit_button);
         editButton.setOnClickListener((view) ->{
+            if (addUpdateListener == null) return;
             addUpdateListener.onClick(room);
         });
         ImageButton deleteButton = holder.itemView.findViewById(R.id.room_item_delete_button);
-        editButton.setOnClickListener((view) ->{
-            //addUpdateListener.onClick(room);
+        deleteButton.setOnClickListener((view) ->{
+            if(deleteListener == null) return;
+            deleteListener.onClick(room);
         });
 
         holder.itemView.setOnClickListener((view) -> {
+            if(viewListener == null) return;
             viewListener.onClick(room);
         });
     }

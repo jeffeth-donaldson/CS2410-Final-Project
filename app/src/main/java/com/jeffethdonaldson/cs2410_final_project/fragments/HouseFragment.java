@@ -35,6 +35,7 @@ public class HouseFragment extends Fragment {
         HouseRoomAdapter adapter = new HouseRoomAdapter(
                 viewModel.getHouseRooms(),
                 (room) -> {
+                    viewModel.setCurrentRoom(room);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_view, AddRoomFragment.class, null)
                             .setReorderingAllowed(true)
@@ -42,7 +43,7 @@ public class HouseFragment extends Fragment {
                             .commit();
                 },
                 (room) ->{
-                    //viewModel.delete(room);
+                    viewModel.delete(room);
                 },
                 (room) ->{
                     Bundle bundle = new Bundle();
@@ -95,6 +96,7 @@ public class HouseFragment extends Fragment {
         });
 
         view.findViewById(R.id.fab_house).setOnClickListener((button) -> {
+            viewModel.setCurrentRoom(null);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, AddRoomFragment.class, null)
                     .setReorderingAllowed(true)

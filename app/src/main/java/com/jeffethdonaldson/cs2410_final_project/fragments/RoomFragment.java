@@ -41,9 +41,13 @@ public class RoomFragment extends Fragment {
 
         TaskAdapter adapter = new TaskAdapter(
                 tasks,
+                //edit
                 (task) -> {
                     Bundle args = new Bundle();
-                    args.putSerializable("houseRoom", currentRoom);
+                    args.putSerializable("task", task);
+                    args.putSerializable("houseroom", currentRoom);
+                  //  args.putSerializable("user", task.user);
+                    viewModel.setCurrentTask(task);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
                             .setReorderingAllowed(true)
@@ -51,8 +55,21 @@ public class RoomFragment extends Fragment {
                             .commit();
                 },
                 (task)->{
-                    //viewModel.delete(task);
+                    viewModel.delete(task);
+                },
+                //view
+                (task) ->{
+                    Bundle args = new Bundle();
+                    args.putSerializable("task", task);
+                    args.putSerializable("houseroom", currentRoom);
+                    viewModel.setCurrentTask(task);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
                 }
+
         );
 
         tasks.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Task>>() {
@@ -105,6 +122,7 @@ public class RoomFragment extends Fragment {
         view.findViewById(R.id.fab_room).setOnClickListener((button) -> {
             Bundle args = new Bundle();
             args.putSerializable("houseRoom", currentRoom);
+            viewModel.setCurrentTask(null);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
                     .setReorderingAllowed(true)
