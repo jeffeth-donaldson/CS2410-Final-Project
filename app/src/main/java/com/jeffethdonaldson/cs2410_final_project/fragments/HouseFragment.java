@@ -42,7 +42,7 @@ public class HouseFragment extends Fragment {
                             .commit();
                 },
                 (room) ->{
-                    //viewModel.delete(room);
+                    viewModel.delete(room);
                 },
                 (room) ->{
                     Bundle bundle = new Bundle();

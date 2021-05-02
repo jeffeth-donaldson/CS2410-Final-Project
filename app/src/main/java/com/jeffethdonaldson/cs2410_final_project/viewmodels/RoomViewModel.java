@@ -52,5 +52,11 @@ public class RoomViewModel extends AndroidViewModel {
             saving.postValue(false);
         }).start();
     }
+    public void delete(HouseRoom room){
+        new Thread(() -> {
+            db.getRoomDao().delete(room);
+            houseRooms.remove(room);
+        }).start();
+    }
 }
 
