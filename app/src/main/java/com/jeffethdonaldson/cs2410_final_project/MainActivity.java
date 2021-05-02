@@ -11,6 +11,7 @@ import com.jeffethdonaldson.cs2410_final_project.fragments.CalendarFragment;
 import com.jeffethdonaldson.cs2410_final_project.fragments.HouseFragment;
 import com.jeffethdonaldson.cs2410_final_project.fragments.ProfilesFragment;
 import com.jeffethdonaldson.cs2410_final_project.fragments.RoomFragment;
+import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,11 +26,15 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.open();
         });
 
+        // Material toolBar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_view, CalendarFragment.class, null)
                     .setReorderingAllowed(true)
                     .commit();
+            toolbar.setTitle("To Do");
         }
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
@@ -41,18 +46,22 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.fragment_container_view, CalendarFragment.class, null)
                             .setReorderingAllowed(true)
                             .commit();
+                    toolbar.setTitle("To Do");
+
                     break;
                 case R.id.rooms_item:
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_view, HouseFragment.class, null)
                             .setReorderingAllowed(true)
                             .commit();
+                    toolbar.setTitle("House");
                     break;
                 case R.id.profiles_item:
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_view, ProfilesFragment.class, null)
                             .setReorderingAllowed(true)
                             .commit();
+                    toolbar.setTitle("Profiles");
                     break;
             }
             return true;
