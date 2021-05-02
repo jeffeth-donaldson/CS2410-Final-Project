@@ -1,5 +1,6 @@
 package com.jeffethdonaldson.cs2410_final_project.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,6 +26,7 @@ public class RoomFragment extends Fragment {
     TaskByRoomViewModel viewModel;
     private HouseRoom currentRoom;
     private ObservableArrayList<Task> tasks;
+    private Activity activity = getActivity();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

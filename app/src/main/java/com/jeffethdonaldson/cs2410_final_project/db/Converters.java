@@ -9,6 +9,9 @@ import java.util.Date;
 public class Converters {
     @TypeConverter
     public static ArrayList<Date> fromString(String value) {
+        if (value.equals("")) {
+            return new ArrayList<Date>();
+        }
        String[] split = value.split(",");
        ArrayList<Date> result = new ArrayList<>();
         for (String i: split) {
@@ -19,6 +22,9 @@ public class Converters {
 
     @TypeConverter
     public static String fromArrayList(ArrayList<Date> list) {
+        if (list == null){
+            return "";
+        }
         StringBuilder result = new StringBuilder();
         for (Date val : list) {
             result.append(val.getTime()).append(",");
