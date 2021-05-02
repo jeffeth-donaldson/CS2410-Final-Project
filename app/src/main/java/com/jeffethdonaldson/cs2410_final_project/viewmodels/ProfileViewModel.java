@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class ProfileViewModel extends AndroidViewModel {
     ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
     MutableLiveData<Boolean> saving = new MutableLiveData<>();
+    MutableLiveData<Profile> currentProfile = new MutableLiveData<>();
     AppDB db;
     public ProfileViewModel(@NonNull Application application) {
         super(application);
@@ -29,6 +30,14 @@ public class ProfileViewModel extends AndroidViewModel {
         new Thread(() -> {
            profiles.addAll(db.getProfileDao().getAll());
         }).start();
+    }
+
+    public void setCurrentProfile(Profile profile){
+        currentProfile.postValue(profile);
+    }
+
+    public MutableLiveData <Profile> getCurrentProfile(){
+        return currentProfile;
     }
 
     public ObservableArrayList<Profile> getProfiles(){
@@ -47,6 +56,12 @@ public class ProfileViewModel extends AndroidViewModel {
             newProfile.id = db.getProfileDao().insert(newProfile);
             profiles.add(newProfile);
             saving.postValue(false);
+        }).start();
+    }
+    public void delete(Profile profile){
+        new Thread(() -> {
+            db.getProfileDao().delete(profile);
+            profiles.remove(profile);
         }).start();
     }
 

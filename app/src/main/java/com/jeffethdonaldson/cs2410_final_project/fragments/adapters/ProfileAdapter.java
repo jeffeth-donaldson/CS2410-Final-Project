@@ -45,6 +45,10 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         editButton.setOnClickListener((view)->{
             addUpdateListener.onClick(profile);
         });
+        ImageButton deleteButton = holder.itemView.findViewById(R.id.profile_item_delete_button);
+        deleteButton.setOnClickListener((view) ->{
+            deleteListener.onClick(profile);
+        });
     }
 
     @Override

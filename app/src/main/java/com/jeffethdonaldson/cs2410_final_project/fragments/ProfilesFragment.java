@@ -41,7 +41,7 @@ public class ProfilesFragment extends Fragment {
                             .commit();
                 },
                 (profile) -> {
-                    //viewModel.delete(profile);
+                    viewModel.delete(profile);
                 }
         );
 

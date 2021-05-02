@@ -25,6 +25,13 @@ public class AddProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
 
+        viewModel.getCurrentProfile().observe(getViewLifecycleOwner(), profile -> {
+            if(profile != null){
+                TextInputEditText titleInput = view.findViewById(R.id.profile_title_input);
+                titleInput.setText(profile.name);
+            }
+        });
+
         viewModel.getSaving().observe(getViewLifecycleOwner(), saving ->{
             if(this.saving && !saving) {
                 // Save finish, can exit
