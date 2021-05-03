@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.PriorityQueue;
 
-public class   CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment {
     public CalendarFragment() {
         super(R.layout.fragment_calendar);
     }
@@ -160,10 +160,12 @@ public class   CalendarFragment extends Fragment {
                 Task task = toSchedule.poll();
                 task.lastAdded = currentDay;
                 task.daysScheduled.add(currentDay);
+                scheduledTasks++;
                 if(!toUpdate.contains(task)) {
                     toUpdate.add(task);
                 }
             }
+            currentDay = getTomorrow(currentDay);
         }
         return toUpdate;
     }
@@ -199,7 +201,10 @@ public class   CalendarFragment extends Fragment {
     private Date getNextDayToSchedule(Task task){
         final long LENGTH_DAY = 86400000;
         // -1 below because we will use Date.after() to determine if we can schedule
-        long daysBetweenSchedule = task.frequency * 30-1;
+        long daysBetweenSchedule = 30/task.frequency -1;
+        if (task.lastAdded == null){
+            return new Date(0);
+        }
         Date nextDayToSchedule = new Date(task.lastAdded.getTime() + (daysBetweenSchedule * LENGTH_DAY));
         return nextDayToSchedule;
     }
@@ -210,7 +215,7 @@ public class   CalendarFragment extends Fragment {
     }
 
     private ObservableArrayList<Task> getDayTasks(ArrayList<Task> tasks, Date date) {
-        ObservableArrayList<Task> result = new ObservableArrayList<>();
+         ObservableArrayList<Task> result = new ObservableArrayList<>();
         for (Task task : tasks) {
             if (task.daysScheduled.contains(date)) {
                 result.add(task);

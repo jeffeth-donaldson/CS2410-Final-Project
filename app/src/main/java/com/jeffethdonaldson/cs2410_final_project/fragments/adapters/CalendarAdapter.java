@@ -3,6 +3,7 @@ package com.jeffethdonaldson.cs2410_final_project.fragments.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.databinding.ObservableArrayList;
 
@@ -30,6 +31,8 @@ public class CalendarAdapter extends SimpleSectionAdapter<CalendarAdapter.MyView
 
     @Override
     public void onBindItemViewHolder(MyViewHolder holder, int position) {
+        TextView taskName = holder.itemView.findViewById(R.id.task_item_name);
+        taskName.setText(tasks.get(position).name);
 
     }
 

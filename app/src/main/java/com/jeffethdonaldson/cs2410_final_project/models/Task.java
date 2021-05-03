@@ -38,9 +38,9 @@ public class Task implements Comparable<Task>{
     @Override
     public int compareTo(Task o) {
         if (this.frequency < o.frequency){
-            return -1;
-        } else if (this.frequency > o.frequency) {
             return 1;
+        } else if (this.frequency > o.frequency) {
+            return -1;
         } else {
             return 0;
         }
