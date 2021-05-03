@@ -54,8 +54,8 @@ public class CalendarFragment extends Fragment {
 
         for (int i = 0; i < days.length; i++) {
             days[i] = getDayTasks(tasks, currentDay);
+            sectionDataManager.addSection(new CalendarAdapter(days[i], true, false, currentDay), (short)1);
             currentDay = getTomorrow(currentDay);
-            sectionDataManager.addSection(new CalendarAdapter(days[i]));
         }
 
 

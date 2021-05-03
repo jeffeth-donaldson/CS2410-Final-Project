@@ -8,16 +8,24 @@ import android.widget.TextView;
 import androidx.databinding.ObservableArrayList;
 
 import com.cruxlab.sectionedrecyclerview.lib.BaseSectionAdapter;
+import com.cruxlab.sectionedrecyclerview.lib.SectionAdapter;
 import com.cruxlab.sectionedrecyclerview.lib.SimpleSectionAdapter;
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
-public class CalendarAdapter extends SimpleSectionAdapter<CalendarAdapter.MyViewHolder> {
-    ObservableArrayList<Task> tasks;
+import java.util.Date;
 
-    public CalendarAdapter(ObservableArrayList<Task> tasks) {
+public class CalendarAdapter extends SectionAdapter<CalendarAdapter.MyViewHolder, CalendarAdapter.MyHeaderViewHolder> {
+    ObservableArrayList<Task> tasks;
+    Date headerText;
+
+
+    public CalendarAdapter(ObservableArrayList<Task> tasks, boolean isHeaderVisible, boolean isHeaderPinned, Date headerText) {
+        super(isHeaderVisible, isHeaderPinned);
         this.tasks = tasks;
+        this.headerText = headerText;
     }
+
     @Override
     public int getItemCount() {
         return tasks.size();
@@ -36,8 +44,27 @@ public class CalendarAdapter extends SimpleSectionAdapter<CalendarAdapter.MyView
 
     }
 
+    @Override
+    public MyHeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_calendar, parent, false);
+        return new MyHeaderViewHolder(view);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(MyHeaderViewHolder holder) {
+        TextView headerName = holder.itemView.findViewById(R.id.calendar_header_text);
+        headerName.setText(headerText.toString());
+    }
+
     public class MyViewHolder extends BaseSectionAdapter.ItemViewHolder {
         public MyViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class MyHeaderViewHolder extends BaseSectionAdapter.HeaderViewHolder {
+
+        public MyHeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
