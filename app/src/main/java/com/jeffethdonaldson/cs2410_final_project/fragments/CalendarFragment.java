@@ -22,7 +22,9 @@ import com.jeffethdonaldson.cs2410_final_project.viewmodels.CalendarViewModel;
 
 import java.sql.Array;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.PriorityQueue;
 
@@ -49,8 +51,8 @@ public class CalendarFragment extends Fragment {
         updateTasks(makeCalendar(tasks), viewModel);
 
         ObservableArrayList<Task>[] days = new ObservableArrayList[30];
-        Date currentDay = new Date();
-        roundToDay(currentDay);
+        //Date currentDay = roundToDay(new Date());
+        LocalDate currentDay = LocalDate.now();
 
         for (int i = 0; i < days.length; i++) {
             days[i] = getDayTasks(tasks, currentDay);
@@ -109,8 +111,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void refreshDays(ObservableArrayList<Task>[] days, ObservableArrayList<Task> tasks, SectionDataManager manager){
-        Date currentDay = new Date();
-        roundToDay(currentDay);
+        LocalDate currentDay = LocalDate.now();
         for (int i = 0; i < days.length; i++) {
             days[i].clear();
             days[i].addAll(getDayTasks(tasks, currentDay));
@@ -134,11 +135,10 @@ public class CalendarFragment extends Fragment {
         ArrayList<Task> toUpdate = new ArrayList<>();
         int tasksPerDay = calculateTasksPerDay(tasks);
         PriorityQueue<Task> toSchedule = new PriorityQueue<>();
-        Date currentDay = new Date();
-        roundToDay(currentDay);
+        LocalDate currentDay = LocalDate.now();
         for (Task task : tasks) {
-            for (Date scheduledDate : task.daysScheduled) {
-                if (scheduledDate.before(currentDay)){
+            for (LocalDate scheduledDate : task.daysScheduled) {
+                if (scheduledDate.isBefore(currentDay)){
                     task.daysScheduled.remove(scheduledDate);
                     if (!toUpdate.contains(task)){
                         toUpdate.add(task);
@@ -152,7 +152,7 @@ public class CalendarFragment extends Fragment {
                 if (task.daysScheduled.contains(currentDay)){
                     scheduledTasks++;
                 }
-                if (currentDay.after(getNextDayToSchedule(task)) && !toSchedule.contains(task)){
+                if (currentDay.isAfter(getNextDayToSchedule(task)) && !toSchedule.contains(task)){
                     toSchedule.add(task);
                 }
             }
@@ -165,7 +165,7 @@ public class CalendarFragment extends Fragment {
                     toUpdate.add(task);
                 }
             }
-            currentDay = getTomorrow(currentDay);
+            currentDay = currentDay.plusDays(1);
         }
         return toUpdate;
     }
@@ -192,29 +192,36 @@ public class CalendarFragment extends Fragment {
         return tasksPerDay;
     }
 
-    private void roundToDay(Date date){
-        final long LENGTH_DAY = 86400000;
-        long rounded = date.getTime() - (date.getTime() % LENGTH_DAY);
-        date.setTime(rounded);
+    private Date roundToDay(Date date){
+//        final long LENGTH_DAY = 86400000;
+//        long rounded = date.getTime() - (date.getTime() % LENGTH_DAY);
+//        date.setTime(rounded);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day, 0, 0, 0);
+        return calendar.getTime();
     }
 
-    private Date getNextDayToSchedule(Task task){
+    private LocalDate getNextDayToSchedule(Task task){
         final long LENGTH_DAY = 86400000;
         // -1 below because we will use Date.after() to determine if we can schedule
         long daysBetweenSchedule = 30/task.frequency -1;
         if (task.lastAdded == null){
-            return new Date(0);
+            return LocalDate.of(0,1,1);
         }
-        Date nextDayToSchedule = new Date(task.lastAdded.getTime() + (daysBetweenSchedule * LENGTH_DAY));
+        LocalDate nextDayToSchedule = task.lastAdded.plusDays(daysBetweenSchedule);
         return nextDayToSchedule;
     }
 
-    private Date getTomorrow(Date date){
-        final long LENGTH_DAY = 86400000;
-        return new Date(date.getTime() + LENGTH_DAY);
+    private LocalDate getTomorrow(LocalDate date){
+        LocalDate newDate = date.plusDays(1);
+        return newDate;
     }
 
-    private ObservableArrayList<Task> getDayTasks(ArrayList<Task> tasks, Date date) {
+    private ObservableArrayList<Task> getDayTasks(ArrayList<Task> tasks, LocalDate date) {
          ObservableArrayList<Task> result = new ObservableArrayList<>();
         for (Task task : tasks) {
             if (task.daysScheduled.contains(date)) {

@@ -13,14 +13,15 @@ import com.cruxlab.sectionedrecyclerview.lib.SimpleSectionAdapter;
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class CalendarAdapter extends SectionAdapter<CalendarAdapter.MyViewHolder, CalendarAdapter.MyHeaderViewHolder> {
     ObservableArrayList<Task> tasks;
-    Date headerText;
+    LocalDate headerText;
 
 
-    public CalendarAdapter(ObservableArrayList<Task> tasks, boolean isHeaderVisible, boolean isHeaderPinned, Date headerText) {
+    public CalendarAdapter(ObservableArrayList<Task> tasks, boolean isHeaderVisible, boolean isHeaderPinned, LocalDate headerText) {
         super(isHeaderVisible, isHeaderPinned);
         this.tasks = tasks;
         this.headerText = headerText;

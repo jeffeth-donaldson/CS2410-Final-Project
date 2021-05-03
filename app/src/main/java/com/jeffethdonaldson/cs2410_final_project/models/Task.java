@@ -7,6 +7,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,10 +33,10 @@ public class Task implements Comparable<Task>, Serializable {
     public String room;
 
     @ColumnInfo(name = "last_added")
-    public Date lastAdded;
+    public LocalDate lastAdded;
 
     @ColumnInfo(name = "days_scheduled")
-    public ArrayList<Date> daysScheduled;
+    public ArrayList<LocalDate> daysScheduled;
 
     @Override
     public int compareTo(Task o) {
