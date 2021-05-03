@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.models.HouseRoom;
 
-public class HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.ViewHolder> {
+public class  HouseRoomAdapter extends RecyclerView.Adapter<HouseRoomAdapter.ViewHolder> {
     ObservableArrayList<HouseRoom> rooms;
     OnHouseRoomClicked addUpdateListener;
     OnHouseRoomClicked deleteListener;

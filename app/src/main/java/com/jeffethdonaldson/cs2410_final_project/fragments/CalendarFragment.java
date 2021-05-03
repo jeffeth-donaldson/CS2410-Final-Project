@@ -10,17 +10,23 @@ import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.cruxlab.sectionedrecyclerview.lib.SectionDataManager;
+import com.cruxlab.sectionedrecyclerview.lib.SectionHeaderLayout;
 import com.jeffethdonaldson.cs2410_final_project.R;
+import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.CalendarAdapter;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.CalendarViewModel;
 
+import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.PriorityQueue;
 
-public class CalendarFragment extends Fragment {
+public class   CalendarFragment extends Fragment {
     public CalendarFragment() {
         super(R.layout.fragment_calendar);
     }
@@ -33,35 +39,90 @@ public class CalendarFragment extends Fragment {
 
         viewModel = new ViewModelProvider(getActivity()).get(CalendarViewModel.class);
         ObservableArrayList<Task> tasks = viewModel.getTasks();
+
+        RecyclerView recyclerView = view.findViewById(R.id.calendar_fragment_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        SectionDataManager sectionDataManager = new SectionDataManager();
+        RecyclerView.Adapter adapter = sectionDataManager.getAdapter();
+        recyclerView.setAdapter(adapter);
+
+        updateTasks(makeCalendar(tasks), viewModel);
+
+        ObservableArrayList<Task>[] days = new ObservableArrayList[30];
+        Date currentDay = new Date();
+        roundToDay(currentDay);
+
+        for (int i = 0; i < days.length; i++) {
+            days[i] = getDayTasks(tasks, currentDay);
+            currentDay = getTomorrow(currentDay);
+            sectionDataManager.addSection(new CalendarAdapter(days[i]));
+        }
+
+
+
         tasks.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Task>>() {
             @Override
             public void onChanged(ObservableList<Task> sender) {
                 getActivity().runOnUiThread(() ->{
-                    //adapter.notifyDataSetChanged();
                     makeCalendar(tasks);
+                    refreshDays(days, tasks, sectionDataManager);
                 });
             }
 
             @Override
             public void onItemRangeChanged(ObservableList<Task> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() ->{
+                    makeCalendar(tasks);
+                    refreshDays(days, tasks, sectionDataManager);
+                });
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Task> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() ->{
+                    makeCalendar(tasks);
+                    refreshDays(days, tasks, sectionDataManager);
+                });
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Task> sender, int fromPosition, int toPosition, int itemCount) {
-
+                getActivity().runOnUiThread(() ->{
+                    makeCalendar(tasks);
+                    refreshDays(days, tasks, sectionDataManager);
+                });
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Task> sender, int positionStart, int itemCount) {
-
+                getActivity().runOnUiThread(() ->{
+                    makeCalendar(tasks);
+                    refreshDays(days, tasks, sectionDataManager);
+                });
             }
         });
+
+
+
+
+
+    }
+
+    private void refreshDays(ObservableArrayList<Task>[] days, ObservableArrayList<Task> tasks, SectionDataManager manager){
+        Date currentDay = new Date();
+        roundToDay(currentDay);
+        for (int i = 0; i < days.length; i++) {
+            days[i].clear();
+            days[i].addAll(getDayTasks(tasks, currentDay));
+            currentDay = getTomorrow(currentDay);
+            manager.updateSection(i);
+        }
+    }
+
+    private void updateTasks(ArrayList<Task> toUpdate, CalendarViewModel viewModel){
+        for (Task task : toUpdate) {
+            viewModel.updateTask(task);
+        }
     }
 
     /**
@@ -142,4 +203,21 @@ public class CalendarFragment extends Fragment {
         Date nextDayToSchedule = new Date(task.lastAdded.getTime() + (daysBetweenSchedule * LENGTH_DAY));
         return nextDayToSchedule;
     }
+
+    private Date getTomorrow(Date date){
+        final long LENGTH_DAY = 86400000;
+        return new Date(date.getTime() + LENGTH_DAY);
+    }
+
+    private ObservableArrayList<Task> getDayTasks(ArrayList<Task> tasks, Date date) {
+        ObservableArrayList<Task> result = new ObservableArrayList<>();
+        for (Task task : tasks) {
+            if (task.daysScheduled.contains(date)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
+
+
 }
