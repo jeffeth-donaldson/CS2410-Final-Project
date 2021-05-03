@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class ProfileViewModel extends AndroidViewModel {
     ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
     MutableLiveData<Boolean> saving = new MutableLiveData<>();
+    MutableLiveData<Profile> currentProfile = new MutableLiveData<>();
     AppDB db;
     public ProfileViewModel(@NonNull Application application) {
         super(application);
@@ -31,6 +32,14 @@ public class ProfileViewModel extends AndroidViewModel {
         }).start();
     }
 
+    public void setCurrentProfile(Profile profile){
+        currentProfile.postValue(profile);
+    }
+
+    public MutableLiveData <Profile> getCurrentProfile(){
+        return currentProfile;
+    }
+
     public ObservableArrayList<Profile> getProfiles(){
         return profiles;
     }
@@ -39,14 +48,42 @@ public class ProfileViewModel extends AndroidViewModel {
         return saving;
     }
 
+
+
+
     public void saveProfile(String title){
+        saving.setValue(true);
         new Thread(()->{
-            saving.postValue(true);
-            Profile newProfile = new Profile();
-            newProfile.name = title;
-            newProfile.id = db.getProfileDao().insert(newProfile);
-            profiles.add(newProfile);
+            if(currentProfile.getValue()!=null){
+                Profile current = currentProfile.getValue();
+                current.name = title;
+                db.getProfileDao().update(current);
+                int index = profiles.indexOf(current);
+                profiles.set(index, current);
+            }
+            else{
+                Profile newProfile = new Profile();
+                newProfile.name = title;
+                newProfile.id = db.getProfileDao().insert(newProfile);
+                profiles.add(newProfile);
+            }
             saving.postValue(false);
+        }).start();
+    }
+
+
+
+
+
+
+
+
+
+
+    public void delete(Profile profile){
+        new Thread(() -> {
+            db.getProfileDao().delete(profile);
+            profiles.remove(profile);
         }).start();
     }
 

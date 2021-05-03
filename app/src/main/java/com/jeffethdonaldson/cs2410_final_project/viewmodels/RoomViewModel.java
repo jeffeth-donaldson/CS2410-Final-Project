@@ -43,13 +43,28 @@ public class RoomViewModel extends AndroidViewModel {
     }
 
     public void saveRoom(String title){
+        saving.setValue(true);
         new Thread(()->{
-            saving.postValue(true);
-            HouseRoom newHouseRoom = new HouseRoom();
-            newHouseRoom.name = title;
-            newHouseRoom.id = db.getRoomDao().insert(newHouseRoom);
-            houseRooms.add(newHouseRoom);
+            if(currentRoom.getValue() != null){
+                HouseRoom current = currentRoom.getValue();
+                current.name = title;
+                db.getRoomDao().update(current);
+                int index = houseRooms.indexOf(current);
+                houseRooms.set(index, current);
+            }
+            else{
+                HouseRoom newHouseRoom = new HouseRoom();
+                newHouseRoom.name = title;
+                newHouseRoom.id = db.getRoomDao().insert(newHouseRoom);
+                houseRooms.add(newHouseRoom);
+            }
             saving.postValue(false);
+        }).start();
+    }
+    public void delete(HouseRoom room){
+        new Thread(() -> {
+            db.getRoomDao().delete(room);
+            houseRooms.remove(room);
         }).start();
     }
 }
