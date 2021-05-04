@@ -1,6 +1,7 @@
 package com.jeffethdonaldson.cs2410_final_project.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.CalendarAdapter;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.CalendarViewModel;
+import com.jeffethdonaldson.cs2410_final_project.viewmodels.TaskViewModel;
 
 import java.sql.Array;
 import java.sql.Time;
@@ -28,19 +31,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.PriorityQueue;
 
+import static android.content.ContentValues.TAG;
+
 public class CalendarFragment extends Fragment {
     public CalendarFragment() {
         super(R.layout.fragment_calendar);
     }
 
-    CalendarViewModel viewModel;
+    TaskViewModel viewModel;
+    ObservableArrayList<Task> tasks;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(getActivity()).get(CalendarViewModel.class);
-        ObservableArrayList<Task> tasks = viewModel.getTasks();
+        viewModel = new ViewModelProvider(getActivity()).get(TaskViewModel.class);
+        tasks = viewModel.getTasks();
 
         RecyclerView recyclerView = view.findViewById(R.id.calendar_fragment_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -48,7 +54,7 @@ public class CalendarFragment extends Fragment {
         RecyclerView.Adapter adapter = sectionDataManager.getAdapter();
         recyclerView.setAdapter(adapter);
 
-        updateTasks(makeCalendar(tasks), viewModel);
+        viewModel.updateTasks(makeCalendar(tasks));
 
         ObservableArrayList<Task>[] days = new ObservableArrayList[30];
         //Date currentDay = roundToDay(new Date());
@@ -65,49 +71,54 @@ public class CalendarFragment extends Fragment {
         tasks.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Task>>() {
             @Override
             public void onChanged(ObservableList<Task> sender) {
-                getActivity().runOnUiThread(() ->{
-                    makeCalendar(tasks);
-                    refreshDays(days, tasks, sectionDataManager);
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        makeCalendar(tasks);
+                        refreshDays(days, tasks, sectionDataManager);
+                    });
+                }
             }
 
             @Override
             public void onItemRangeChanged(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() ->{
-                    makeCalendar(tasks);
-                    refreshDays(days, tasks, sectionDataManager);
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        makeCalendar(tasks);
+                        refreshDays(days, tasks, sectionDataManager);
+                    });
+                }
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() ->{
-                    makeCalendar(tasks);
-                    refreshDays(days, tasks, sectionDataManager);
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        makeCalendar(tasks);
+                        refreshDays(days, tasks, sectionDataManager);
+                    });
+                }
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<Task> sender, int fromPosition, int toPosition, int itemCount) {
-                getActivity().runOnUiThread(() ->{
-                    makeCalendar(tasks);
-                    refreshDays(days, tasks, sectionDataManager);
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        makeCalendar(tasks);
+                        refreshDays(days, tasks, sectionDataManager);
+                    });
+                }
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<Task> sender, int positionStart, int itemCount) {
-                getActivity().runOnUiThread(() ->{
-                    makeCalendar(tasks);
-                    refreshDays(days, tasks, sectionDataManager);
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        makeCalendar(tasks);
+                        refreshDays(days, tasks, sectionDataManager);
+                    });
+                }
             }
         });
-
-
-
-
-
     }
 
     private void refreshDays(ObservableArrayList<Task>[] days, ObservableArrayList<Task> tasks, SectionDataManager manager){
@@ -131,17 +142,21 @@ public class CalendarFragment extends Fragment {
      * @param tasks
      * @return Arraylist<Task> of all tasks that need to be updated.
      */
-    private ArrayList<Task> makeCalendar(ArrayList<Task> tasks){
+    private ArrayList<Task> makeCalendar(ArrayList<Task> tasks) {
         ArrayList<Task> toUpdate = new ArrayList<>();
         int tasksPerDay = calculateTasksPerDay(tasks);
         PriorityQueue<Task> toSchedule = new PriorityQueue<>();
         LocalDate currentDay = LocalDate.now();
-        for (Task task : tasks) {
-            for (LocalDate scheduledDate : task.daysScheduled) {
-                if (scheduledDate.isBefore(currentDay)){
-                    task.daysScheduled.remove(scheduledDate);
-                    if (!toUpdate.contains(task)){
-                        toUpdate.add(task);
+        if (tasks != null) {
+            for (Task task : tasks) {
+                if (task.daysScheduled != null) {
+                    for (LocalDate scheduledDate : task.daysScheduled) {
+                        if (scheduledDate.isBefore(currentDay)) {
+                            task.daysScheduled.remove(scheduledDate);
+                            if (!toUpdate.contains(task)) {
+                                toUpdate.add(task);
+                            }
+                        }
                     }
                 }
             }
@@ -149,11 +164,13 @@ public class CalendarFragment extends Fragment {
         for (int i = 0; i < 30; i++) {
             int scheduledTasks = 0;
             for (Task task : tasks) {
-                if (task.daysScheduled.contains(currentDay)){
-                    scheduledTasks++;
-                }
-                if (currentDay.isAfter(getNextDayToSchedule(task)) && !toSchedule.contains(task)){
-                    toSchedule.add(task);
+                if (task.daysScheduled != null) {
+                    if (task.daysScheduled.contains(currentDay)) {
+                        scheduledTasks++;
+                    }
+                    if (currentDay.isAfter(getNextDayToSchedule(task)) && !toSchedule.contains(task)) {
+                        toSchedule.add(task);
+                    }
                 }
             }
             while (scheduledTasks < tasksPerDay && !toSchedule.isEmpty()){
@@ -224,7 +241,7 @@ public class CalendarFragment extends Fragment {
     private ObservableArrayList<Task> getDayTasks(ArrayList<Task> tasks, LocalDate date) {
          ObservableArrayList<Task> result = new ObservableArrayList<>();
         for (Task task : tasks) {
-            if (task.daysScheduled.contains(date)) {
+            if (task.daysScheduled != null && task.daysScheduled.contains(date)) {
                 result.add(task);
             }
         }

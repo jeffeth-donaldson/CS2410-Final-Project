@@ -35,6 +35,7 @@ public class AddTaskFragment extends Fragment{
     TaskByRoomViewModel editViewModel;
     ProfileViewModel profileViewModel;
     Profile assignee;
+    ObservableArrayList<Task> tasks;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class AddTaskFragment extends Fragment{
         viewModel = new ViewModelProvider(getActivity()).get(TaskViewModel.class);
         editViewModel = new ViewModelProvider(getActivity()).get(TaskByRoomViewModel.class);
         profileViewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
+
+        tasks = viewModel.getTasks();
+
         TextInputEditText titleInput = view.findViewById(R.id.task_title_input);
         TextInputEditText descriptionInput  = view.findViewById(R.id.task_description_input);
         TextInputEditText frequencyInput = view.findViewById(R.id.task_frequency_input);

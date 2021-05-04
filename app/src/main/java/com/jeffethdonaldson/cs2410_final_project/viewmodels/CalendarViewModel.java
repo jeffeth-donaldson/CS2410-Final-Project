@@ -12,6 +12,8 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
+import java.util.Collection;
+
 public class CalendarViewModel extends AndroidViewModel {
     ObservableArrayList<Task> tasks = new ObservableArrayList<>();
     AppDB db;
@@ -31,7 +33,15 @@ public class CalendarViewModel extends AndroidViewModel {
     public void updateTask(Task task){
         new Thread(()->{
             db.getTaskDao().update(task);
-        });
+        }).start();
     }
+    public void updateTasks(Collection<Task> tasks){
+        new Thread(() -> {
+            for (Task task : tasks) {
+                db.getTaskDao().update(task);
+            }
+        }).start();
+    }
+
 
 }

@@ -14,7 +14,9 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class TaskViewModel extends AndroidViewModel {
     ObservableArrayList<Task> tasks = new ObservableArrayList<>();
@@ -28,7 +30,7 @@ public class TaskViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDB.class,  application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
         new Thread(() -> {
             tasks.addAll(db.getTaskDao().getAll());
-        });
+        }).start();
     }
 
     public ObservableArrayList<Task> getTasks(){
@@ -52,6 +54,8 @@ public class TaskViewModel extends AndroidViewModel {
                 newTask.frequency = frequency;
                 newTask.user = userName;
                 newTask.room = roomName;
+                newTask.lastAdded = LocalDate.ofEpochDay(0);
+                newTask.daysScheduled = new ArrayList<>();
                 newTask.id = db.getTaskDao().insert(newTask);
                 tasks.add(newTask);
             saving.postValue(false);
@@ -65,7 +69,21 @@ public class TaskViewModel extends AndroidViewModel {
             System.out.println("We updated");
             saving.postValue(false);
             System.out.println("We done");
+            for(Task originalTask: tasks){
+                if (originalTask.id == task.id){
+                    tasks.set(tasks.indexOf(originalTask),task);
+                }
+            }
         }).start();
 
+    }
+    public void updateTasks(Collection<Task> tasks){
+        saving.postValue(true);
+        new Thread(() ->{
+            for (Task task : tasks) {
+                db.getTaskDao().update(task);
+            }
+            saving.postValue(false);
+        }).start();
     }
 }
