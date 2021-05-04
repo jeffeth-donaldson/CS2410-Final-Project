@@ -17,7 +17,9 @@ import com.cruxlab.sectionedrecyclerview.lib.SectionDataManager;
 import com.cruxlab.sectionedrecyclerview.lib.SectionHeaderLayout;
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.fragments.adapters.CalendarAdapter;
+import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
+import com.jeffethdonaldson.cs2410_final_project.viewmodels.CalendarByProfileViewModel;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.CalendarViewModel;
 
 import java.sql.Array;
@@ -34,13 +36,27 @@ public class CalendarFragment extends Fragment {
     }
 
     CalendarViewModel viewModel;
+    CalendarByProfileViewModel byProfileViewModel;
+    private Profile currentProfile;
+    ObservableArrayList<Task> tasks;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(getActivity()).get(CalendarViewModel.class);
-        ObservableArrayList<Task> tasks = viewModel.getTasks();
+        //ObservableArrayList<Task> tasks = viewModel.getTasks();
+        //-----------------------------
+        byProfileViewModel = new ViewModelProvider(getActivity()).get(CalendarByProfileViewModel.class);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            currentProfile = (Profile) bundle.get("profile");
+            tasks = byProfileViewModel.getTasks(currentProfile);
+        }
+        else{
+            tasks = viewModel.getTasks();
+        }
+        //--------------------------------
 
         RecyclerView recyclerView = view.findViewById(R.id.calendar_fragment_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -59,6 +75,7 @@ public class CalendarFragment extends Fragment {
             sectionDataManager.addSection(new CalendarAdapter(days[i], true, false, currentDay), (short)1);
             currentDay = getTomorrow(currentDay);
         }
+
 
 
 

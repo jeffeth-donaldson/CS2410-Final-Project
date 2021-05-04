@@ -44,7 +44,17 @@ public class ProfilesFragment extends Fragment {
                 },
                 (profile) -> {
                     viewModel.delete(profile);
-                }
+                },
+                (profile -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("profile", profile);
+                    viewModel.setCurrentProfile(profile);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, CalendarFragment.class, bundle)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
+                })
         );
 
         viewModel.getProfiles().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Profile>>() {
