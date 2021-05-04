@@ -104,26 +104,18 @@ public class AddTaskFragment extends Fragment{
         //Profile user = (Profile) bundle.get("user");
 
 
-
-
-
         //Problem----------------------------------------------------------
 
         if(task != null){
-            editViewModel.getCurrentTask().observe(getViewLifecycleOwner(), task1 ->{
-                TextInputEditText editTaskTitleInput = view.findViewById(R.id.task_title_input);
-                editTaskTitleInput.setText(task.name);
-                TextInputEditText editTaskDescriptionInput = view.findViewById(R.id.task_description_input);
-                editTaskDescriptionInput.setText(task.description);
-                TextInputEditText editTaskFreqInput = view.findViewById(R.id.task_frequency_input);
-                editTaskFreqInput.setText(task.frequency + "");
+            TextInputEditText editTaskTitleInput = view.findViewById(R.id.task_title_input);
+            editTaskTitleInput.setText(task.name);
+            TextInputEditText editTaskDescriptionInput = view.findViewById(R.id.task_description_input);
+            editTaskDescriptionInput.setText(task.description);
+            TextInputEditText editTaskFreqInput = view.findViewById(R.id.task_frequency_input);
+            editTaskFreqInput.setText(task.frequency + "");
 
-//                Spinner editTaskUserSpinner = view.findViewById(R.id.assigned_user_spinner);
-//                editTaskUserSpinner.
-                }
-            );
 
-            editViewModel.getSaving().observe(getViewLifecycleOwner(), saving ->{
+            viewModel.getSaving().observe(getViewLifecycleOwner(), saving ->{
                 if(this.saving && !saving) {
                     // Save finish, can exit
                     getActivity().runOnUiThread(() -> {
@@ -136,20 +128,13 @@ public class AddTaskFragment extends Fragment{
                 this.saving = saving;
             });
 
-            TextInputEditText editTaskTitleInput = view.findViewById(R.id.task_title_input);
-            TextInputEditText editTaskDescriptionInput = view.findViewById(R.id.task_description_input);
-            TextInputEditText editTaskFreqInput = view.findViewById(R.id.task_frequency_input);
 
             view.findViewById(R.id.task_save_button).setOnClickListener(button ->{
-                editViewModel.saveTask(
-                        editTaskTitleInput.getText().toString(),
-                        editTaskDescriptionInput.getText().toString(),
-                        Integer.parseInt(editTaskFreqInput.getText().toString()),
-                        "test",
-                        houseRoom.name
-
-                );
-
+                task.frequency = Integer.parseInt(frequencyInput.getText().toString());
+                task.name = titleInput.getText().toString();
+                task.description = descriptionInput.getText().toString();
+                task.user = assignee.name;
+                viewModel.updateTask(task);
             });
 
         }
@@ -167,6 +152,7 @@ public class AddTaskFragment extends Fragment{
                 this.saving = saving;
             });
 
+
             view.findViewById(R.id.task_save_button).setOnClickListener(button ->{
                 viewModel.saveTask(
                         titleInput.getText().toString(),
@@ -174,9 +160,7 @@ public class AddTaskFragment extends Fragment{
                         Integer.parseInt(frequencyInput.getText().toString()),
                         assignee.name,
                         houseRoom.name
-
                 );
-
             });
         }
 

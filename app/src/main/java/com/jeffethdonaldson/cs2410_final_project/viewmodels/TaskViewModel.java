@@ -57,4 +57,15 @@ public class TaskViewModel extends AndroidViewModel {
             saving.postValue(false);
         }).start();
     }
+    public void updateTask(Task task){
+        saving.postValue(true);
+        System.out.println("We Wildin");
+        new Thread(()->{
+            db.getTaskDao().update(task);
+            System.out.println("We updated");
+            saving.postValue(false);
+            System.out.println("We done");
+        }).start();
+
+    }
 }
