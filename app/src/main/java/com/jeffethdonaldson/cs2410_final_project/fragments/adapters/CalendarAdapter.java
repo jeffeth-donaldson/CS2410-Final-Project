@@ -1,5 +1,6 @@
 package com.jeffethdonaldson.cs2410_final_project.fragments.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CalendarAdapter extends SectionAdapter<CalendarAdapter.MyViewHolder, CalendarAdapter.MyHeaderViewHolder> {
@@ -25,6 +27,12 @@ public class CalendarAdapter extends SectionAdapter<CalendarAdapter.MyViewHolder
         super(isHeaderVisible, isHeaderPinned);
         this.tasks = tasks;
         this.headerText = headerText;
+    }
+    public int setColor(int value){
+        if (value == 1) return Color.BLACK; // once/month
+        if (value <= 10) return Color.GREEN; // low
+        if (value >= 11 && value <= 21) return Color.BLUE; // med
+        return Color.RED; // high
     }
 
     @Override
@@ -40,8 +48,10 @@ public class CalendarAdapter extends SectionAdapter<CalendarAdapter.MyViewHolder
 
     @Override
     public void onBindItemViewHolder(MyViewHolder holder, int position) {
+
         TextView taskName = holder.itemView.findViewById(R.id.task_item_name);
         taskName.setText(tasks.get(position).name);
+        taskName.setTextColor(setColor(tasks.get(position).frequency));
 
     }
 

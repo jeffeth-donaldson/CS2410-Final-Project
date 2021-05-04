@@ -7,11 +7,16 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Profile {
+
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = "name")
     public String name;
+
+//    @ColumnInfo(name = "color")
+//    public int color;
 
     @NonNull
     @Override

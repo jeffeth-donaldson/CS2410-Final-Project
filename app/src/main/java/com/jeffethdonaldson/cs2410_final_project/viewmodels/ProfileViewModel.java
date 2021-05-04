@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 
 public class ProfileViewModel extends AndroidViewModel {
+
     ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
     MutableLiveData<Boolean> saving = new MutableLiveData<>();
     MutableLiveData<Profile> currentProfile = new MutableLiveData<>();
@@ -70,13 +71,6 @@ public class ProfileViewModel extends AndroidViewModel {
             saving.postValue(false);
         }).start();
     }
-
-
-
-
-
-
-
 
 
 
