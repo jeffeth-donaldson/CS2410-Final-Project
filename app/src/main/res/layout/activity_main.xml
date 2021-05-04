@@ -14,7 +14,8 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#673AB7">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -22,8 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:navigationIcon="@drawable/ic_baseline_menu_24"
-                app:title="@string/app_name"
-                />
+                app:title="@string/app_name" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,6 +40,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu_nav_drawer" />
+        app:menu="@menu/menu_nav_drawer"
+        android:background="#009688"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>

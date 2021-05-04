@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
