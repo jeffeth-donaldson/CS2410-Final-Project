@@ -61,10 +61,9 @@ public class RoomFragment extends Fragment {
                 (task) ->{
                     Bundle args = new Bundle();
                     args.putSerializable("task", task);
-                    args.putSerializable("houseroom", currentRoom);
                     viewModel.setCurrentTask(task);
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, AddTaskFragment.class, args)
+                            .replace(R.id.fragment_container_view, TaskFragment.class, args)
                             .setReorderingAllowed(true)
                             .addToBackStack(null)
                             .commit();

@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jeffethdonaldson.cs2410_final_project.R;
+import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
 public class TaskFragment extends Fragment {
 
@@ -19,17 +21,26 @@ public class TaskFragment extends Fragment {
         // Required empty public constructor
         super(R.layout.fragment_task);
     }
+    private Task currentTask;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        view.findViewById(R.id.fab_task).setOnClickListener((button) -> {
-//
-//            getActivity().getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.fragment_container_view, AddTaskFragment.class, null)
-//                    .setReorderingAllowed(true)
-//                    .addToBackStack(null)
-//                    .commit();
-//        });
+        Bundle bundle = getArguments();
+        currentTask = (Task) bundle.get("task");
+        setTaskDisplayText();
+
+    }
+    public void setTaskDisplayText(){
+        TextView taskName = (TextView) getView().findViewById(R.id.task_display_name);
+        taskName.setText(currentTask.name);
+        TextView taskDescription = (TextView) getView().findViewById(R.id.task_display_description);
+        taskDescription.setText(currentTask.description);
+        TextView taskUser = (TextView) getView().findViewById(R.id.task_display_user);
+        taskUser.setText(currentTask.user);
+        TextView taskFreq = (TextView) getView().findViewById(R.id.task_display_frequency);
+        taskFreq.setText(currentTask.frequency + " times per month");
+        TextView taskRoom = (TextView) getView().findViewById(R.id.task_display_room);
+        taskRoom.setText(currentTask.room);
     }
 }

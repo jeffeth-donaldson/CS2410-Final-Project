@@ -10,38 +10,29 @@ import androidx.room.Room;
 
 import com.jeffethdonaldson.cs2410_final_project.R;
 import com.jeffethdonaldson.cs2410_final_project.db.AppDB;
+import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 import com.jeffethdonaldson.cs2410_final_project.models.Task;
 
-import java.util.Collection;
-
-public class CalendarViewModel extends AndroidViewModel {
+public class CalendarByProfileViewModel extends AndroidViewModel {
     ObservableArrayList<Task> tasks = new ObservableArrayList<>();
     AppDB db;
 
-    public CalendarViewModel(@NonNull Application application) {
+    public CalendarByProfileViewModel(@NonNull Application application) {
         super(application);
         db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
-        new Thread(() -> {
-            tasks.addAll(db.getTaskDao().getAll());
-        }).start();
     }
 
-    public ObservableArrayList<Task> getTasks() {
+    public ObservableArrayList<Task> getTasks(Profile user) {
+        new Thread(() -> {
+            tasks.addAll(db.getTaskDao().findByUser(user.name));
+        }).start();
         return tasks;
     }
 
     public void updateTask(Task task){
         new Thread(()->{
             db.getTaskDao().update(task);
-        }).start();
+        });
     }
-    public void updateTasks(Collection<Task> tasks){
-        new Thread(() -> {
-            for (Task task : tasks) {
-                db.getTaskDao().update(task);
-            }
-        }).start();
-    }
-
 
 }

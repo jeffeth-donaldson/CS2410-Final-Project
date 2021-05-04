@@ -1,6 +1,7 @@
 package com.jeffethdonaldson.cs2410_final_project.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,6 @@ public class ProfilesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
-
         ProfileAdapter adapter = new ProfileAdapter(
                 viewModel.getProfiles(),
                 (profile) -> {
@@ -44,7 +44,17 @@ public class ProfilesFragment extends Fragment {
                 },
                 (profile) -> {
                     viewModel.delete(profile);
-                }
+                },
+                (profile -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("profile", profile);
+                    viewModel.setCurrentProfile(profile);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, CalendarFragment.class, bundle)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
+                })
         );
 
         viewModel.getProfiles().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Profile>>() {
@@ -96,5 +106,6 @@ public class ProfilesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.profile_fragment_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 }

@@ -18,14 +18,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     ObservableArrayList<Profile> profiles;
     OnProfileClicked addUpdateListener;
     OnProfileClicked deleteListener;
+    OnProfileClicked viewListener;
     public interface OnProfileClicked{
         void onClick(Profile profile);
     }
 
-    public ProfileAdapter(ObservableArrayList<Profile> profiles, OnProfileClicked addUpdateListener, OnProfileClicked deleteListener){
+    public ProfileAdapter(ObservableArrayList<Profile> profiles, OnProfileClicked addUpdateListener, OnProfileClicked deleteListener, OnProfileClicked viewListener){
         this.profiles = profiles;
         this.addUpdateListener = addUpdateListener;
         this.deleteListener = deleteListener;
+        this.viewListener = viewListener;
     }
 
     @NonNull
@@ -39,6 +41,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Profile profile = profiles.get(position);
         TextView name = holder.itemView.findViewById(R.id.profile_item_name);
+        name.setText(profile.name);
 
         ImageButton editButton = holder.itemView.findViewById(R.id.profile_item_edit_button);
         editButton.setOnClickListener((view)->{
@@ -50,7 +53,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             if(deleteListener == null) return;
             deleteListener.onClick(profile);
         });
-        name.setText(profile.name);
+        holder.itemView.setOnClickListener((view) ->{
+            if(viewListener == null) return;
+            viewListener.onClick(profile);
+        });
+
+
     }
 
     @Override
