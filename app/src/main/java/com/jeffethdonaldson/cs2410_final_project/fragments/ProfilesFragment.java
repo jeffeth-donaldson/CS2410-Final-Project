@@ -31,22 +31,6 @@ public class ProfilesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
-
-        //----------------------
-        boolean unassignedProfileExist = false;
-        for(int i = 0; i< viewModel.getProfiles().size(); i++){
-            Log.d("going through the unassigned check", viewModel.getProfiles().get(i).name );
-            if(viewModel.getProfiles().get(i).name.equals("unassigned")){
-                Log.d("unassigned", "exists");
-                unassignedProfileExist = true;
-            }
-        }
-        if(!unassignedProfileExist){
-            viewModel.saveProfile("unassigned");
-        }
-
-        //------------------------
-
         ProfileAdapter adapter = new ProfileAdapter(
                 viewModel.getProfiles(),
                 (profile) -> {
@@ -122,5 +106,18 @@ public class ProfilesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.profile_fragment_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //----------------------
+        boolean unassignedProfileExist = false;
+        for(int i = 0; i< viewModel.getProfiles().size(); i++){
+            if(viewModel.getProfiles().get(i).name.equals("unassigned")){
+                unassignedProfileExist = true;
+            }
+        }
+        if(!unassignedProfileExist){
+            viewModel.saveProfile("unassigned");
+        }
+
+         //------------------------
     }
 }

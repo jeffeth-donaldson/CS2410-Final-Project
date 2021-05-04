@@ -1,6 +1,7 @@
 package com.jeffethdonaldson.cs2410_final_project.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -16,10 +17,11 @@ import com.jeffethdonaldson.cs2410_final_project.models.Profile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProfileViewModel extends AndroidViewModel {
-    ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
+   ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
     MutableLiveData<Boolean> saving = new MutableLiveData<>();
     MutableLiveData<Profile> currentProfile = new MutableLiveData<>();
     AppDB db;
@@ -64,8 +66,19 @@ public class ProfileViewModel extends AndroidViewModel {
             else{
                 Profile newProfile = new Profile();
                 newProfile.name = title;
-                newProfile.id = db.getProfileDao().insert(newProfile);
-                profiles.add(newProfile);
+                List<Profile> profiles = db.getProfileDao().getAll();
+                //Can't make two of the same profile
+                boolean profileExists = false;
+                for(int i = 0; i<profiles.size(); i++){
+                    if(profiles.get(i).name.equals(newProfile.name)){
+                        profileExists = true;
+                    }
+                }
+                if(!profileExists){
+                    newProfile.id = db.getProfileDao().insert(newProfile);
+                    profiles.add(newProfile);
+                }
+                //------------------------------
             }
             saving.postValue(false);
         }).start();
