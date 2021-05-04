@@ -42,7 +42,6 @@ public class ProfilesFragment extends Fragment {
             }
         }
         if(!unassignedProfileExist){
-            viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
             viewModel.saveProfile("unassigned");
         }
 

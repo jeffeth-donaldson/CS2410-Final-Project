@@ -71,15 +71,6 @@ public class ProfileViewModel extends AndroidViewModel {
         }).start();
     }
 
-
-
-
-
-
-
-
-
-
     public void delete(Profile profile){
         new Thread(() -> {
             db.getProfileDao().delete(profile);
