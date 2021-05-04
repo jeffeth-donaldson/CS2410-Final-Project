@@ -39,7 +39,7 @@ public class TaskFragment extends Fragment {
         TextView taskUser = (TextView) getView().findViewById(R.id.task_display_user);
         taskUser.setText(currentTask.user);
         TextView taskFreq = (TextView) getView().findViewById(R.id.task_display_frequency);
-        taskFreq.setText(currentTask.frequency + "");
+        taskFreq.setText(currentTask.frequency + " times per month");
         TextView taskRoom = (TextView) getView().findViewById(R.id.task_display_room);
         taskRoom.setText(currentTask.room);
     }
