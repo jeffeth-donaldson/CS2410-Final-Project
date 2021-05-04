@@ -107,17 +107,5 @@ public class ProfilesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //----------------------
-        boolean unassignedProfileExist = false;
-        for(int i = 0; i< viewModel.getProfiles().size(); i++){
-            if(viewModel.getProfiles().get(i).name.equals("unassigned")){
-                unassignedProfileExist = true;
-            }
-        }
-        if(!unassignedProfileExist){
-            viewModel.saveProfile("unassigned");
-        }
-
-         //------------------------
     }
 }

@@ -30,6 +30,20 @@ public class ProfileViewModel extends AndroidViewModel {
         saving.setValue(false);
         db = Room.databaseBuilder(application, AppDB.class, application.getString(R.string.db_name)).fallbackToDestructiveMigration().build();
         new Thread(() -> {
+            List<Profile> profileList = db.getProfileDao().getAll();
+            //----------------------
+            boolean unassignedProfileExist = false;
+            for(int i = 0; i< profileList.size(); i++){
+                if(profileList.get(i).name.equals("unassigned")){
+                    unassignedProfileExist = true;
+                }
+            }
+            if(!unassignedProfileExist){
+                Profile unassigned = new Profile();
+                unassigned.name = "unassigned";
+                unassigned.id = db.getProfileDao().insert(unassigned);
+            }
+            //------------------------
            profiles.addAll(db.getProfileDao().getAll());
         }).start();
     }
