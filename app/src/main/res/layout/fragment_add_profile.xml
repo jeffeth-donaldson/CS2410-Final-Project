@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#009688"
     tools:context=".fragments.AddTaskFragment">
 
     <TextView
@@ -15,6 +16,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Add A Profile"
+        android:shadowColor="#673AB7"
+        android:shadowDx="0"
+        android:shadowDy="8"
+        android:shadowRadius="1"
+        android:textColor="#F4F1F1"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/profile_title_field"
         app:layout_constraintEnd_toEndOf="parent"
