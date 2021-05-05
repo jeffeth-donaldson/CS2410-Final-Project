@@ -1,16 +1,18 @@
 package com.jeffethdonaldson.cs2410_final_project.fragments;
 
-import android.graphics.Color;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
+import androidx.databinding.adapters.SpinnerBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,10 +25,7 @@ import com.jeffethdonaldson.cs2410_final_project.viewmodels.ProfileViewModel;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.TaskByRoomViewModel;
 import com.jeffethdonaldson.cs2410_final_project.viewmodels.TaskViewModel;
 
-import java.util.ArrayList;
-
 public class AddTaskFragment extends Fragment{
-
 
     private Boolean saving = false;
 
@@ -41,8 +40,6 @@ public class AddTaskFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         viewModel = new ViewModelProvider(getActivity()).get(TaskViewModel.class);
         editViewModel = new ViewModelProvider(getActivity()).get(TaskByRoomViewModel.class);
         profileViewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
@@ -52,7 +49,6 @@ public class AddTaskFragment extends Fragment{
         TextInputEditText titleInput = view.findViewById(R.id.task_title_input);
         TextInputEditText descriptionInput  = view.findViewById(R.id.task_description_input);
         TextInputEditText frequencyInput = view.findViewById(R.id.task_frequency_input);
-
 
         Spinner userSpinner = view.findViewById(R.id.assigned_user_spinner);
         ObservableArrayList<Profile> profiles = profileViewModel.getProfiles();
@@ -168,6 +164,7 @@ public class AddTaskFragment extends Fragment{
                         Integer.parseInt(frequencyInput.getText().toString()),
                         assignee.name,
                         houseRoom.name
+
                 );
             });
         }

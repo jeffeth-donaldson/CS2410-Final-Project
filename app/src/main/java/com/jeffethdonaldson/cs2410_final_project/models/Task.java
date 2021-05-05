@@ -26,9 +26,6 @@ public class Task implements Comparable<Task>, Serializable {
     @ColumnInfo(name = "frequency")
     public int frequency;
 
-//    @ColumnInfo(name = "color")
-//    public int color;
-
     @ColumnInfo(name = "user_name")
     public String user;
 

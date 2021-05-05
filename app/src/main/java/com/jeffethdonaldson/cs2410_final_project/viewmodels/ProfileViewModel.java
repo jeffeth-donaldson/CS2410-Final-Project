@@ -22,7 +22,10 @@ import java.util.List;
 
 public class ProfileViewModel extends AndroidViewModel {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 706813b... added color based on freq
     ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
 =======
    ObservableArrayList<Profile> profiles = new ObservableArrayList<>();
@@ -113,8 +116,18 @@ public class ProfileViewModel extends AndroidViewModel {
 <<<<<<< HEAD
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> b97b20c0af8979607b26a5c5ad2b1e882d35e141
+=======
+
+
+
+
+
+
+
+>>>>>>> parent of 706813b... added color based on freq
     public void delete(Profile profile){
         new Thread(() -> {
             db.getProfileDao().delete(profile);

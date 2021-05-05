@@ -10,19 +10,19 @@ import java.io.Serializable;
 @Entity
 <<<<<<< HEAD
 public class Profile {
+<<<<<<< HEAD
 
 
 =======
 public class Profile implements Serializable {
 >>>>>>> b97b20c0af8979607b26a5c5ad2b1e882d35e141
+=======
+>>>>>>> parent of 706813b... added color based on freq
     @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = "name")
     public String name;
-
-//    @ColumnInfo(name = "color")
-//    public int color;
 
     @NonNull
     @Override
