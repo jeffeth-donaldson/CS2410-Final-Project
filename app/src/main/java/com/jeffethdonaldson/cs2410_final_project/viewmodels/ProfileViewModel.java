@@ -88,26 +88,19 @@ public class ProfileViewModel extends AndroidViewModel {
             else{
                 Profile newProfile = new Profile();
                 newProfile.name = title;
-                if(newProfile.name != "unassigned"){
+                List<Profile> profiles = db.getProfileDao().getAll();
+                //Can't make two of the same profile
+                boolean profileExists = false;
+                for(int i = 0; i<profiles.size(); i++){
+                    if(profiles.get(i).name.equals(newProfile.name)){
+                        profileExists = true;
+                    }
+                }
+                if(!profileExists){
                     newProfile.id = db.getProfileDao().insert(newProfile);
                     profiles.add(newProfile);
-
                 }
-                else {
-                    List<Profile> profiles = db.getProfileDao().getAll();
-                    //Can't make two of the same profile
-                    boolean profileExists = false;
-                    for (int i = 0; i < profiles.size(); i++) {
-                        if (profiles.get(i).name.equals(newProfile.name)) {
-                            profileExists = true;
-                        }
-                    }
-                    if (!profileExists) {
-                        newProfile.id = db.getProfileDao().insert(newProfile);
-                        profiles.add(newProfile);
-                    }
-                    //-----------------------------
-                }
+                //------------------------------
             }
             saving.postValue(false);
         }).start();
